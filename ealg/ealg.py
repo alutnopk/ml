@@ -1,8 +1,3 @@
-# Group Number: 12
-# Name: Kartik Pontula
-# Roll Number: 20CS10031
-# Project Number: EALG
-# Project Title: Employee Attrition Prediction using Logistic Regression
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt # for data visualization
