@@ -1,13 +1,17 @@
+# Group Number: 12
+# Name: Kartik Pontula
+# Roll Number: 20CS10031
+# Project Number: EALG
+# Project Title: Employee Attrition Prediction using Logistic Regression
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-
+import matplotlib.pyplot as plt # for data visualization
+from sklearn.preprocessing import StandardScaler # for z-score normalization of features
+from sklearn.model_selection import train_test_split # for dataset splitting
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score # for accuracy reports
 class LogisticRegressor:
-	'''Logistic regression class implemented only using numpy and pandas'''
-	def __init__(self, learning_rate=0.01, num_iterations=1000, batch_size=32):
+	'''Custom logistic regression class implemented only using numpy and pandas'''
+	def __init__(self, learning_rate=0.1, num_iterations=250, batch_size=128):
 		self.learning_rate = learning_rate
 		self.num_iterations = num_iterations
 		self.batch_size = batch_size
@@ -52,11 +56,10 @@ class LogisticRegressor:
 				# parameter update
 				self.weights -= self.learning_rate * dw
 				self.bias -= self.learning_rate * db
-
-			# Compute average loss for epoch
 			avg_loss = total_loss / num_batches
 			self.losses.append(avg_loss)
 			# print(f"Epoch {epoch+1}/{self.num_iterations}, Loss: {avg_loss}")
+		return self
 
 	def predict(self, X):
 		'''Predict classification for a test dataset'''
@@ -73,7 +76,6 @@ class LogisticRegressor:
 		plt.grid(True)
 		plt.show()
 
-
 # helper functions
 def encode_cat_labels(X):
 	'''Encode categorical features: one-hot encoding if non-binary, else binary encoding'''
@@ -85,7 +87,6 @@ def encode_cat_labels(X):
 			one_hot_cols = pd.get_dummies(X[col]).astype(int)
 			X = pd.concat([X.drop(col, axis=1), one_hot_cols], axis=1)
 		else:
-			# X[col] = X[col].replace(X[col].unique(), [_ for _ in range(unique_count_col)])
 			binary_mapping = {value: idx for idx, value in enumerate(X[col].unique())}
 			X[col] = X[col].map(binary_mapping)
 	return X
@@ -107,7 +108,6 @@ if __name__ == '__main__':
 
 	ealg = LogisticRegressor()
 	ealg.fit(X_train, y_train)
-
 	y_pred = ealg.predict(X_test)
 
 	precision = precision_score(y_pred, y_test)
